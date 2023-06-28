@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_user_no_input">Please enter Git user</string>
+    <string name="error_no_name">No Name</string>
+    <string name="text_field_label_github_user">"Enter Github User Id"</string>
+</resources>
