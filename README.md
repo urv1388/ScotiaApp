@@ -2,7 +2,7 @@
 
 ### Features
 
-- **GitHub Public API**: Users can search any user by GitHub username and list therere forks if its available. 
+- **GitHub Public API**: Users can search any user by GitHub username and list therere repos if its available. 
 
 ### Project Details
 
