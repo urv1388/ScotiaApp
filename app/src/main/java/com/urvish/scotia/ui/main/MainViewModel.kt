@@ -32,7 +32,13 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             _gitHubUserUIState.update { GitHubUserUIState.Loading }
             _userRepoUIState.update { UserRepoUIState.IDLE }
-            when (val result = gitHubUserUseCase(username)) {
+            val gitHubUserUseCaseDiffered = async {
+                gitHubUserUseCase(username)
+            }
+            val repoUseCaseDiffered = async {
+                repoUseCase(username)
+            }
+            when (val result = gitHubUserUseCaseDiffered.await()) {
                 is Result.Error -> {
                     _gitHubUserUIState.update { GitHubUserUIState.Error(result.exception) }
                 }
@@ -41,18 +47,17 @@ class MainViewModel @Inject constructor(
                     _gitHubUserUIState.update {
                         GitHubUserUIState.Success(result.data)
                     }
+                }
+            }
+            _userRepoUIState.update { UserRepoUIState.Loading }
+            when (val resultRepo = repoUseCaseDiffered.await()) {
+                is Result.Error -> {
+                    _userRepoUIState.update { UserRepoUIState.Error(resultRepo.exception) }
+                }
 
-                    _userRepoUIState.update { UserRepoUIState.Loading }
-                    when (val resultRepo = repoUseCase(username)) {
-                        is Result.Error -> {
-                            _userRepoUIState.update { UserRepoUIState.Error(resultRepo.exception) }
-                        }
-
-                        is Result.Success -> {
-                            _userRepoUIState.update {
-                                UserRepoUIState.Success(resultRepo.data)
-                            }
-                        }
+                is Result.Success -> {
+                    _userRepoUIState.update {
+                        UserRepoUIState.Success(resultRepo.data)
                     }
                 }
             }

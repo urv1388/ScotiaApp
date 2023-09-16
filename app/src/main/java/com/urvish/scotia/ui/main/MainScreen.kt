@@ -1,6 +1,5 @@
 package com.urvish.scotia.ui.main
 
-import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,7 +38,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import com.urvish.dataprovider.data.network.model.GitHubUser
 import com.urvish.dataprovider.data.network.model.GitHubUserRepo
 import com.urvish.scotia.ui.common.ShowError
 import com.urvish.scotia.ui.common.ShowLoading
@@ -138,7 +136,7 @@ private fun RepoCard(userRepo: GitHubUserRepo) {
             userRepo.name?.let {
                 Text(
                     text = it,
-                    color = if (userRepo.forks > 5000) {
+                    color = if (userRepo.forkMoreThen5000) {
                         Color.Red
                     } else {
                         Color.Unspecified

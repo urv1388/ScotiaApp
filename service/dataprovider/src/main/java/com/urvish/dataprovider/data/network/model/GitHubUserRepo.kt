@@ -18,4 +18,6 @@ data class GitHubUserRepo(
     val stargazersCount: Int = 0,
     @SerialName("updated_at")
     val updatedAt: String? = null,
-)
+) {
+    val forkMoreThen5000 = forks > 5000
+}
